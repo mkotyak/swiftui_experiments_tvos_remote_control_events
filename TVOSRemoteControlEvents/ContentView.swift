@@ -1,24 +1,15 @@
-//
-//  ContentView.swift
-//  TVOSRemoteControlEvents
-//
-//  Created by Maria Kotyak on 05/06/2024.
-//
-
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
-}
+    @State private var text: String = "Hello, world!"
 
-#Preview {
-    ContentView()
+    var body: some View {
+        Color.yellow.opacity(0.5).ignoresSafeArea()
+            .overlay {
+                Text(text)
+                    .font(.largeTitle)
+                    .bold()
+                    .foregroundStyle(.black)
+            }
+    }
 }
