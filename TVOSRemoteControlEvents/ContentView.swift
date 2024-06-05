@@ -1,7 +1,26 @@
 import SwiftUI
+import GameController
 
 struct ContentView: View {
     @State private var text: String = "Hello, world!"
+    
+    init() {
+        debugPrint(GCController.controllers())
+    }
+    
+    
+    func setUpDirectionalPad() {
+        debugPrint(GCController.controllers())
+        guard let microGamepad = GCController.controllers().first?.microGamepad else {
+            debugPrint("No microGamepad")
+            return
+        }
+        
+        microGamepad.reportsAbsoluteDpadValues = true
+        microGamepad.dpad.valueChangedHandler = { [self] (pad, x, y) in
+            self.text = "\(x):\(y)"
+        }
+    }
 
     var body: some View {
         NavigationStack {
@@ -15,6 +34,11 @@ struct ContentView: View {
                                 .foregroundStyle(.black)
 
                             VStack {
+                                
+                                Button("Enable Controllers") {
+                                    setUpDirectionalPad()
+                                }
+                                
                                 Spacer()
 
                                 NavigationLink("Tap me") {
@@ -33,6 +57,9 @@ struct ContentView: View {
                             }
                         }
                     }
+            }
+            .onAppear {
+                setUpDirectionalPad()
             }
             .onExitCommand {
                 text = "Exit"
